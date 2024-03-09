@@ -1,7 +1,7 @@
 # CHRISTIAN
 from flask import Flask, render_template, request, url_for, redirect, session, flash, jsonify
-
-import uuid
+from controllers.DBconnectionAgent import DBConnectionAgent
+from uuid import uuid4
 import time
 #pip install bcrypt
 import bcrypt
@@ -19,6 +19,7 @@ import webbrowser
 
 class MyFlaskApp:
     def __init__(self, requestQ:Queue, dataQ:Queue):
+        self.DBconneciton = None
         self.app = Flask(__name__, template_folder='../templates', static_folder='../static')
         # self.admin_view = Blueprint('admin_routes',__name__, template_folder='../templates', static_folder='../static')
         
@@ -50,9 +51,94 @@ class MyFlaskApp:
         self.homeClass = Homepage()
         
         webbrowser.open("http://127.0.0.1:7777")
-             
+
+    def __del__(self):
+        pass   
             
-        
+    ################################
+    #      Setup DB Connection     #
+    ################################
+    def _setupDBConnection(self, address="127.0.0.1", port="27017"):
+        """Attempts to connect to the MongoDB at the specified address and port. Additionally, creates the medicalAdvisory database if it doesn't exist and setups default collections for master list and preset
+
+        Args:
+            address (str, optional): The address for which the MongoDB is located. Defaults to "localhost".
+            port (str, optional): The port number for which the MongoDB should be accessed from. Defaults to "27017".
+        """
+        self.DBconneciton = DBConnectionAgent()
+        try:
+            if self.DBconneciton.connect(address, port):
+                print("Successfully connected to DB at "+"mongodb://"+address+":"+port+"/")
+                if self.DBconneciton.useDB('medicalAdvisory'):
+                    print('Using the medicalAdvisory database.')
+                    tempUUID = str(uuid4())
+                    self._checkForUsers(tempUUID)
+                    self._checkForUserData(tempUUID)
+                    self._checkForSessionKeys(tempUUID)
+                else:
+                    print('Could not connect to the medicalAdvisory database. Creating new one...')
+                    self.DBconneciton.createNewDB('medicalAdvisory')
+                    if 'medicalAdvisory' in self.DBconneciton.getDBs():
+                        print('Successfully created new database.')
+                        if self.DBconneciton.useDB('medicalAdvisory'):
+                            print('Using the medicalAdvisory database.')
+                            tempUUID = str(uuid4())
+                            self._checkForUsers(tempUUID)
+                            self._checkForUserData(tempUUID)
+                            self._checkForSessionKeys(tempUUID)
+                        else:
+                            print('Could not connect to the new medicalAdvisory database.')
+                    else:
+                        print('An Error occured while creating the new medicalAdvisory database.')
+            else:
+                print("Unable to connect to DB at "+"mongodb://"+address+":"+port+"/")
+        except:
+            print('There was an error in connecting to MongoDB via ', address, ':', port)
+            print('Aborting...')
+            self.__del__()
+
+    def _checkForUsers(self, uuid:uuid4):
+        """Checks for the existence of the users collection within the database and creates a default one if the collection could not be verified.
+        """
+        if self.DBconneciton.verifyCollection('users'):
+            print('Users collection verified.')
+        else:
+            print('Error in users, rebuilding the default users.')
+            self.DBconneciton.clearDB('users')
+            self.DBconneciton.addToDB('users', {'id':uuid, 'username':'admin', 'password':'1234567', 'email':'admin@admin.com', 'creationTime':time.time(),})
+            if self.__DBconneciton.verifyCollection('users'):
+                print('Users rebuilt successfully.')
+            else:
+                print('An unexpected error occured in the verification of the users.')
+
+    def _checkForUserData(self, uuid:uuid4):
+        """Checks for the existence of the userData collection within the userData and creates a default one if the collection could not be verified.
+        """
+        if self.DBconneciton.verifyCollection('userData'):
+            print('userData collection verified.')
+        else:
+            print('Error in userData, rebuilding the default userData.')
+            self.DBconneciton.clearDB('userData')
+            self.DBconneciton.addToDB('userData',{'id':uuid,'age':18,'gender':'m','schedules':{},'medications':{},'alternativeTreatment':{},'treatments':{},})
+            if self.DBconneciton.verifyCollection('userData'):
+                print('userData rebuilt successfully.')
+            else:
+                print('An unexpected error occured in the verification of the userData.')
+
+    def _checkForSessionKeys(self, uuid:uuid4):
+        """Checks for the existence of the sessionKeys collection within the database and creates a default one if the collection could not be verified.
+        """
+        if self.DBconneciton.verifyCollection('sessionKeys'):
+            print('sessionKeys collection verified.')
+        else:
+            print('Error in sessionKeys, rebuilding the default sessionKeys.')
+            self.DBconneciton.clearDB('sessionKeys')
+            self.sendToDB('sessionKeys', {'id':uuid, 'token':bcrypt.hashpw('12345'.encode('utf-8'), bcrypt.gensalt())})
+            if self.DBconneciton.verifyCollection('sessionKeys'):
+                print('sessionKeys rebuilt successfully.')
+            else:
+                print('An unexpected error occured in the verification of sessionKeys.')
+
     ################################
     #        AUTH ROUTING          #
     ################################
@@ -167,7 +253,7 @@ class MyFlaskApp:
 
         hashed = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
         
-        user_input = {'name': user, 'email': email, 'id':str(uuid.uuid4()), 'password': hashed, 'creationTime':time.time()}
+        user_input = {'name': user, 'email': email, 'id':str(uuid4()), 'password': hashed, 'creationTime':time.time()}
         self.loginClass.insert_user(user_input)
         user_data = self.loginClass.find_user_by_email(email)
         print('user_data|', user_data)
