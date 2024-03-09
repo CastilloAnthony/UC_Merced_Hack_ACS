@@ -2,40 +2,39 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
+        <meta charset="UTF-8" />
         <title>{% block title %}My Website{% endblock %}</title>
-        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style1.css') }}">
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{{ url_for('static',filename='styles/style1.css') }}"
+        />
     </head>
     <body>
-
         <ul>
             <li><a class="home-link" href="/home">Home</a></li>
             <li><a class="dropdown" href="/about">About</a></li>
 
             <li class="dropdown">
-                <a href="#">Websites</a>
+                <a href="#">Search</a>
                 <div class="dropdown-content">
-                    <a href="/addWebsite">Add Website</a>
-                    <a href="/deleteWebsite">Delete Website</a>
-                    <a href="/viewWebsite">View Website</a>
+                    <a href="/medicine">Medicine</a>
+                    <a href="/alternativeMedicine">Alternative Medicine</a>
+                    <a href="/treatments">Treatments</a>
                 </div>
             </li>
-        
+
             <li class="dropdown">
-                <a href="#">Presets</a>
+                <a href="#">Profile</a>
                 <div class="dropdown-content">
-                    <a href="/addPresetWebList">Add Preset</a>
-                    <a href="/editPreset">Edit Preset</a>
-                    <a href="/deletePreset">Delete Preset</a>
-                    <a href="/viewPreset">View Preset</a>
-                    <!--<a href="/addPreset">Page Prototypes</a>-->
+                    <a href="/profile">Profile</a>
+                    <a href="/login">Login/Signup</a>
                 </div>
             </li>
         </ul>
-        <br>
-        <br>
-        <main>
-            {%block content%}{% endblock %}
-        </main>
+        <br />
+        <br />
+        <main>{%block content%}{% endblock %}</main>
     </body>
-<html>
+    <html></html>
+</html>

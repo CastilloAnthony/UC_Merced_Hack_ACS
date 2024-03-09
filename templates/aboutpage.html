@@ -1,89 +1,94 @@
 <!--CHRISTIAN-->
-{% extends "base.html" %}
-{%block content%}
-    
-    <head>
-        <meta charset="UTF-8">
-        <title>About</title>
-        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style1.css') }}">
+{% extends "base.html" %} {%block content%}
 
-        <style>
+<head>
+    <meta charset="UTF-8" />
+    <title>About</title>
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="{{ url_for('static',filename='styles/style1.css') }}"
+    />
+
+    <style>
+        section {
+            color: white;
+            background-color: rgba(52, 169, 67, 50%);
+            border-radius: 10px;
+
+            margin: auto;
+            width: 70%;
+            height: auto;
+            text-align: justify;
+            padding: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            padding-top: 20px; /* Add some space above the heading */
+        }
+
+        section {
+            color: white;
+            background-color: rgba(
+                52,
+                169,
+                67,
+                0.8
+            ); /* Adjusted the alpha value for better visibility */
+            border-radius: 10px;
+            margin: auto;
+            width: 70%;
+            text-align: justify;
+            padding: 20px; /* Increased padding for better spacing */
+        }
+
+        /* Style for team member names */
+        .name {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 5px; /* Add space between name and email */
+        }
+
+        /* Style for email addresses */
+        .email {
+            color: #fff; /* Use a lighter color for email addresses */
+            margin-bottom: 10px; /* Add more space below email */
+        }
+
+        /* Style for the member descriptions */
+        .description {
+            margin-bottom: 20px; /* Add more space between descriptions */
+        }
+
+        /* Responsive design: Adjust styles for smaller screens */
+        @media (max-width: 768px) {
             section {
-                color: white;
-                background-color: rgba(52, 169, 67, 50%);
-                border-radius: 10px;
-            
-                margin: auto;
-                width: 70%;
-                height: auto;
-                text-align: justify;
-                padding: 10px
+                width: 90%; /* Make the section wider for smaller screens */
             }
-        
-            h1 {
-              text-align: center;
-              color: white;
-              padding-top: 20px; /* Add some space above the heading */
-            }
+        }
+    </style>
+</head>
 
-            section {
-              color: white;
-              background-color: rgba(52, 169, 67, 0.8); /* Adjusted the alpha value for better visibility */
-              border-radius: 10px;
-              margin: auto;
-              width: 70%;
-              text-align: justify;
-              padding: 20px; /* Increased padding for better spacing */
-            }
+<body>
+    <h1 style="text-align: center; color: white">About Us</h1>
+    <section>
+        <p>TBD</p>
 
-            /* Style for team member names */
-            .name {
-              font-weight: bold;
-              font-size: 1.2em;
-              margin-bottom: 5px; /* Add space between name and email */
-            }
+        Meet the Makers:<br />
 
-            /* Style for email addresses */
-            .email {
-              color: #fff; /* Use a lighter color for email addresses */
-              margin-bottom: 10px; /* Add more space below email */
-            }
+        <p class="name">Christian Alameda</p>
+        <p class="email">calameda@csustan.edu</p>
+        <p class="description">TBD<br /></p>
 
-            /* Style for the member descriptions */
-            .description {
-              margin-bottom: 20px; /* Add more space between descriptions */
-            }
+        <p class="name">Anthony Castillo</p>
+        <p class="email">acastillo@csustan.edu</p>
+        <p class="description">TBD<br /></p>
 
-            /* Responsive design: Adjust styles for smaller screens */
-            @media (max-width: 768px) {
-              section {
-                  width: 90%; /* Make the section wider for smaller screens */
-              }
-            }
-
-        </style>
-
-    </head>
-
-    <body>
-        <h1 style="text-align: center; color:white">About Us</h1>
-        <section>
-            The creators of Project S.H.E.R.L.O.C.K. are a dynamic and dedicated team of individuals hailing from California State University Stanislaus' CS-4800 2023 Fall class. Each team member brings a unique set of skills and perspectives to the project, contributing to its success.<br>
-
-            Meet the Makers:<br>
-
-            <p class="name">Christian Alameda</p>
-            <p class="email">calameda@csustan.edu</p>
-            <p class="description">
-            An innovative mind, Christian Alameda is a driving force behind the project. With a keen interest in technology and problem-solving, he ensures that Project S.H.E.R.L.O.C.K. incorporates cutting-edge solutions and remains at the forefront of server monitoring.<br>
-            </p>
-
-            <p class="name">Anthony Castillo</p>
-            <p class="email">acastillo@csustan.edu</p>
-            <p class="description">
-              Anthony Castillo adds a touch of precision to the team. His attention to detail and commitment to excellence are evident in the meticulous design and implementation of controllers within the project. Anthony's skills contribute significantly to the reliability of the system.<br>
-            </p>
-            
-          </section>
-    </body>
+        <p class="name">TBD</p>
+        <p class="email">TBD</p>
+        <p class="description">TBD<br /></p>
+    </section>
+</body>
 {% endblock %}
