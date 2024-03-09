@@ -1,7 +1,8 @@
 import uuid
 import time
+from controllers.DBconnectionAgent import DBConnectionAgent
 class Login:
-    def __init__(self, connectionAgent):
+    def __init__(self, connectionAgent:DBConnectionAgent):
         self.connectionAgent = connectionAgent
 
     #HELPER FUNCTIONS

@@ -1,12 +1,12 @@
 # Created by Anthony Castillo
-from server.server import Server
+from app import startFlask
 
 def main():
-    """Creates a new instance of the server and calls its startServer function.
+    """Creates a new instance of the flask server and calls it.
     """
-    newServer = Server()
-    newServer.startServer()
+    startFlask()
 #end main
 
-if __name__ == "__main__":
-    main()
+main()
+# if __name__ == "__main__":
+#     main()

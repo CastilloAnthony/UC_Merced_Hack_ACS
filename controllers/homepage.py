@@ -30,7 +30,7 @@ class Homepage(): # Controller
             'column': 'users',
             'query': {"email":self.curr_email}
         }
-        temp = requestData(grabAuthThroughEmail, self.__requestQ, self.__dataQ)['data']['username']
+        # temp = requestData(grabAuthThroughEmail, self.__requestQ, self.__dataQ)['data']['username']
         
-        return temp
+        return 'TEST'
         
