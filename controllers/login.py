@@ -1,7 +1,8 @@
 import uuid
 import time
-from DBconnectionAgent import DBconnectionAgent
 class Login:
+    def __init__(self, connectionAgent):
+        self.connectionAgent = connectionAgent
 
     #HELPER FUNCTIONS
     def find_user_by_name(self, name): #Should this work?
@@ -13,15 +14,7 @@ class Login:
         Returns:
             Bool: true or false depending on if database had it
         """
-        #ASKING
-        nameRequest = {
-            'id': uuid.uuid4(),
-            'request_type': 'request',
-            'column': 'auth',
-            'query': {"name":name}
-        }
-        temp = requestData(nameRequest, self.__requestQ, self.__dataQ)['data']
-        DBconnectionAgent.
+        temp = self.connectionAgent.requestFromDB('Users', {"name":name})
         return temp
 
     def find_user_by_email(self, email):
@@ -33,14 +26,8 @@ class Login:
         Returns:
             bool: true or false depending on if database has it
         """
-        #ASKING
-        emailRequest = {
-            'id': uuid.uuid4(),
-            'request_type': 'request',
-            'column': 'auth',
-            'query': {"email":email}
-        }
-        temp = requestData(emailRequest, self.__requestQ, self.__dataQ)['data']
+        temp = self.connectionAgent.requestFromDB('Users', {"email":email})
+        
         return temp
 
     def insert_user(self, auth_data):
@@ -49,49 +36,12 @@ class Login:
         Args:
             user_data (dictionary): should be in form of {'name': user, 'email': email, 'id':uuid.uuid4(), 'password': hashed}
         """
-        #ASKING
-        insertAuthRequest = {
-            'id': uuid.uuid4(),
-            'request_type': 'insert',
-            'column': 'auth',
-            'query': auth_data
-        }
-        requestData(insertAuthRequest, self.__requestQ, self.__dataQ)
-        
-        #ADDING IN A USER DOCUMENT Should be like:
-        #users {
-        # 'id':uuid.uuid4(),
-        # 'username':'Christian', 
-        # 'email':'something@csustan.edu', 
-        # 'websitesList':['www.google.com', 'www.csustan.edu'], 
-        # 'presets':[
-            # {"name": "Christian", "presetLists": ["www.google.com", "www.csustan.edu", "www.microsoft.com", "www.nasa.gov"],"timestamp": 1698890950.1513646}, 
-            # {"name": "Anthony", "presetLists": ["www.google.com", "www.instagram.com", "www.csustan.edu"], "timestamp": 1698890933.333366}
-        # ]
-        #WHAT auth_data is:
-        #{'name': user, 
-        # 'email': email, 
-        # 'id':str(uuid.uuid4()), 
-        # 'password': hashed}
-        parse = auth_data
+        self.connectionAgent.addToDB('Users', {"auth_data":auth_data})
         user_document = {
-            'id': parse['id'],
-            'username':parse['name'],
-            'email': parse['email'],
+            'id': auth_data['id'],
+            'username':auth_data['name'],
+            'email': auth_data['email'],
             'websitesList':[],
             'presets':[]
         }
-        #ASKING
-        insertUserRequest = {
-            'id': uuid.uuid4(),
-            'request_type': 'insert',
-            'column': 'users',
-            'query': user_document
-        }
-        requestData(insertUserRequest, self.__requestQ, self.__dataQ)
-        
-
-        
-    
-    
-    
+        self.connectionAgent.addToDB('Users', {"user_document":user_document})
