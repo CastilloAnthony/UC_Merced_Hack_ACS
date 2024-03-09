@@ -21,7 +21,7 @@ class MyFlaskApp:
     def __init__(self):
         self.DBconneciton = None
         self._setupDBConnection()
-        self.app = Flask(__name__, template_folder='../templates', static_folder='../static')
+        self.app = Flask(__name__, template_folder='./templates', static_folder='../static')
         # self.admin_view = Blueprint('admin_routes',__name__, template_folder='../templates', static_folder='../static')
         
         self.app.secret_key = 'your_secret_key_here'
