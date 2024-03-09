@@ -72,7 +72,6 @@ class MyFlaskApp:
                     tempUUID = str(uuid4())
                     self._checkForUsers(tempUUID)
                     self._checkForUserData(tempUUID)
-                    self._checkForSessionKeys(tempUUID)
                 else:
                     print('Could not connect to the medicalAdvisory database. Creating new one...')
                     self.DBconneciton.createNewDB('medicalAdvisory')
@@ -83,7 +82,6 @@ class MyFlaskApp:
                             tempUUID = str(uuid4())
                             self._checkForUsers(tempUUID)
                             self._checkForUserData(tempUUID)
-                            self._checkForSessionKeys(tempUUID)
                         else:
                             print('Could not connect to the new medicalAdvisory database.')
                     else:
@@ -122,20 +120,6 @@ class MyFlaskApp:
                 print('userData rebuilt successfully.')
             else:
                 print('An unexpected error occured in the verification of the userData.')
-
-    def _checkForSessionKeys(self, uuid:uuid4):
-        """Checks for the existence of the sessionKeys collection within the database and creates a default one if the collection could not be verified.
-        """
-        if self.DBconneciton.verifyCollection('sessionKeys'):
-            print('sessionKeys collection verified.')
-        else:
-            print('Error in sessionKeys, rebuilding the default sessionKeys.')
-            self.DBconneciton.clearDB('sessionKeys')
-            self.DBconneciton.addToDB('sessionKeys', {'id':uuid, 'token':bcrypt.hashpw('12345'.encode('utf-8'), bcrypt.gensalt())})
-            if self.DBconneciton.verifyCollection('sessionKeys'):
-                print('sessionKeys rebuilt successfully.')
-            else:
-                print('An unexpected error occured in the verification of sessionKeys.')
 
     ################################
     #        AUTH ROUTING          #
