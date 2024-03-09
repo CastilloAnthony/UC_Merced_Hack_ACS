@@ -27,7 +27,6 @@ class Login:
             bool: true or false depending on if database has it
         """
         temp = self.connectionAgent.requestFromDB('Users', {"email":email})
-        
         return temp
 
     def insert_user(self, auth_data):

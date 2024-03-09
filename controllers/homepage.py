@@ -3,11 +3,9 @@ import uuid
 import time
 import requests
 from flask import Flask, render_template, request
-from controllers.queueManager import requestData
 
 class Homepage(): # Controller
-    def __init__(self, requestQ, dataQ):
-        self.__requestQ, self.__dataQ = requestQ, dataQ
+    def __init__(self):
         self.curr_email = ''
 
     def __del__(self):
