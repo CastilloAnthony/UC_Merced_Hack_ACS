@@ -44,7 +44,7 @@ class MyFlaskApp:
         self.app.add_url_rule('/about', 'about', self.about)
         
         #CLASS_INITIALIZATION
-        self.loginClass = Login()
+        self.loginClass = Login(self.DBconneciton)
         
         self.homeClass = Homepage()
         
@@ -286,7 +286,7 @@ class MyFlaskApp:
         #print(self.viewWebsiteClass.query1())
         self.homeClass.getEmail(self.curr_email)
         
-        return render_template('homepage.html', userName=self.homeClass.query()) #data=self.viewWebsiteClass.query1())
+        return render_template('homepage.html')#, userName=self.homeClass.query()) #data=self.viewWebsiteClass.query1())
     
     def about(self):
         """_summary_: just shows an about page that shows what we meant to do with this, as well as describe the makers, and what we believe and hope
