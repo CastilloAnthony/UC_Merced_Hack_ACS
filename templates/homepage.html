@@ -3,22 +3,36 @@
 <!--VEL-->
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>View Websites</title>
-    </head>
-    <body>
-        <h1 class="home" style="text-align: center; color: white">
-            Welcome home, {{userName}}.
-        </h1>
-        <br />
-        <div style="text-align: center; color: white">
-            <p style="font-size: x-large">
-                Medical Advisory for Underserved Communitites
-            </p>
-        </div>
-        <!--insert latency table ga.html-->
-    </body>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>View Websites</title>
+</head>
+
+<body>
+    <h1 id="welcomeMessage" class="home" style="text-align: center; color: white">
+        Welcome home, <span id="userName"></span>.
+    </h1>
+    <script>
+        window.onload = function () {
+            var userName = "{{userName}}";
+            if (userName === null || userName === "") {
+                document.getElementById("userName").innerText = "Guest";
+            } else {
+                document.getElementById("userName").innerText = userName;
+            }
+        }
+    </script>
+
+    <br />
+    <div style="text-align: center; color: white">
+        <p style="font-size: x-large">
+            Medical Advisory for Underserved Communitites
+        </p>
+    </div>
+    <!--insert latency table ga.html-->
+</body>
+
 </html>
 
 {% endblock %}
