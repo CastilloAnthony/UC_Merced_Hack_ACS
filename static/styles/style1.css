@@ -1,0 +1,123 @@
+/*CHRISTIAN*/
+html{
+    background-image: url('/static/images/sherlock.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #555;
+}
+/*centering forms wrapped in div*/
+div {
+    text-align: center;
+}
+/*forms styling*/
+form {
+    color: white;
+    background-color: rgba(52, 169, 67, 50%);
+    border-radius: 10px;
+
+    margin: auto;
+    width: 40%;
+    height: fit-content;
+    text-align: justify;
+    padding: 15px
+}
+
+.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+/*VEL*/
+/* Home link styling */
+.home-link {
+    background-color: #4CAF50; /* Green */
+}
+
+/*homepage styling*/
+.home {
+    background: rgba(52, 169, 67, 50%);
+    border-radius: 10px;
+
+    margin: auto;
+    width: 70%;
+    text-align: center;
+}
+
+/*add website styling*/
+.form {
+    text-align: center;
+    padding: 10px;
+}
+
+/*input styling*/
+input[type=submit] {
+    background-color: gray;
+    color: black;
+}
+
+input[type=submit]:hover {
+    background-color: #4CAF50;
+    color: black;
+ }
+
+/* button styling*/
+button {
+    text-align: center;
+    background-color: gray;
+    color: black;
+ }
+
+button:hover {
+    background-color:lightseagreen;
+    color: black;
+}
