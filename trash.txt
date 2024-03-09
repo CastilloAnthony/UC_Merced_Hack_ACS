@@ -1,0 +1,176 @@
+#FINISHED
+    def addPreset(self):
+        """_summary_: grab the email and send it in so that that class can know who is signed in also render html as well as send in every url we have
+
+        tag: masterList
+
+        Returns:
+            html: AddPreset.html
+        """
+        self.addPresetClass.getEmail(self.curr_email)
+        return render_template('AddPreset.html', masterList=self.addPresetClass.query())
+
+    def newAddedPreset(self):
+        """_summary_: simply takes what user gave us in addPreset and updates users info 
+
+        Returns:
+            url: go back home
+        """
+        self.addPresetClass.addPreset()
+        # Redirect to the /home route and render the home.html template
+        return redirect(url_for('home'))
+
+    def addPresetWebList(self):
+        """summary: grabs user's email to query database for user's local webList
+
+        tag: webList
+
+        Returns:
+            html: addPresetWebList.html
+        """
+        self.addPresetClass.getEmail(self.curr_email)
+        return render_template('addPresetWebList.html', masterList = self.addPresetClass.query2())
+   
+    #TODO: grab graphs to put into this
+    def viewPreset(self):
+        """_summary_: send in list of presets and let user choose
+
+        Returns:
+            html: viewPreset.html
+        """
+        self.viewPresetClass.getEmail(self.curr_email)
+        return render_template('viewPreset.html', presets = self.viewPresetClass.query())
+    
+    def newViewPreset(self):
+        # grab selected website
+        # in viewWebsite class use that and use the 
+        # website as a parameter to generateGraph('https://csustan.edu', 300, 15)
+        # that gives me a picture
+        # print(self.viewWebsiteClass.viewWebsite())
+        return render_template('viewPresetNew.html', plot_html = self.viewPresetClass.viewPreset())
+        
+    #TODO: grab graphs to put into this
+    def viewWebsite(self):
+        """_summary_: grab all urls in MASTERLIST and let user choose which one
+        
+        tag: masterList
+
+        Returns:
+            html: viewWebsite.html and list of urls in dictionary format
+        """
+        #buttons to pick the website
+        return render_template('viewWebsite.html', masterList = self.viewWebsiteClass.query2())
+    
+    def newViewWebsite(self):
+        # grab selected website
+        # in viewWebsite class use that and use the 
+        # website as a parameter to generateGraph('https://csustan.edu', 300, 15)
+        # that gives me a picture
+        # print(self.viewWebsiteClass.viewWebsite())
+        return render_template('viewWebsiteNew.html', plot_html=self.viewWebsiteClass.viewWebsite())
+    
+    def viewWebsiteWebList(self):
+        """summary: grab all urls in weblist and let user choose which one
+
+        tag: webList
+        
+        Returns:
+            html: viewWebsite.html and list of urls in dictionary format
+        """
+        self.viewWebsiteClass.getEmail(self.curr_email)
+        return render_template('viewWebsiteWebList.html', masterList = self.viewWebsiteClass.query3())
+    
+    #FINISHED
+    def deletePreset(self):
+        """_summary_: give email then send in list of presets as well as html
+
+        Returns:
+            html: html and dict
+        """
+        self.deletePresetClass.getEmail(self.curr_email)
+        return render_template('DeletePreset.html', presets=self.deletePresetClass.query())
+
+    def newDeletedPreset(self):
+        """_summary_: from user selection we make a deletion or update in documents
+
+        Returns:
+            url: go back home
+        """
+        self.deletePresetClass.deletePreset()
+        # Redirect to the /home route and render the home.html template
+        return redirect(url_for('home'))
+
+    #FINISHED
+    def deleteWebsite(self):
+        """_summary_: grab email list of websites from users document
+
+        tag: webList
+
+        Returns:
+            html: send in html, list
+        """
+        self.deleteWebsiteClass.getEmail(self.curr_email)
+        return render_template('DeleteWebsite.html', masterList = self.deleteWebsiteClass.query())
+    
+    def newDeletedWebsite(self):
+        """_summary_: just delete what was given
+
+        Returns:
+            url: go back home
+        """
+        self.deleteWebsiteClass.deleteWebsite()
+        # Redirect to the /home route and render the home.html template
+        return redirect(url_for('home'))
+
+    #FINISHED
+    def editPreset(self):
+        """_summary_: show html and give presets to be chosen and changed
+
+        Returns:
+            html: html and list
+        """
+        self.editPresetClass.getEmail(self.curr_email)
+        return render_template('EditPreset.html', presets=self.editPresetClass.query())
+    
+    def newEditedPreset(self):
+        """_summary_: user selected a preset to change, give them the one they changed so they know how to correctly reformat their new one
+        
+        tag: webList
+
+        Returns:
+            html:old preset as well as a new list of websites to choose to make a preset, as well as timestamp 
+        """
+        oldPreset=self.editPresetClass.editPreset()
+        #turn timestamp that is in form: 1700691121.3678615
+        #into a date
+        timestamp = str(time.ctime(oldPreset['timestamp']))
+        return render_template('EditPresetNew.html', oldPreset=oldPreset,masterList=self.editPresetClass.query2(), timestamp=timestamp)
+
+    def edit(self):
+        """_summary_: edit is now changed in documents and can go back home
+
+        Returns:
+            url: go back home
+        """
+        self.editPresetClass.editPreset1()
+        return redirect(url_for('home'))
+
+    #FINISHED
+    def addWebsite(self):
+        """_summary_: send email as well as render the template
+
+        Returns:
+            html: addWebsite
+        """
+        self.addWebsiteClass.getEmail(self.curr_email)
+        return render_template('AddWebsite.html')
+    
+    def newAddedWebsite(self):
+        """_summary_: just added whatever was in the textbox when they submitted
+
+        Returns:
+            url: go back home
+        """
+        self.addWebsiteClass.addWebsite()
+        # Redirect to the /home route and render the home.html template
+        return redirect(url_for('home'))
