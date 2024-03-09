@@ -25,9 +25,43 @@
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
     <script src='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/17.0.2/autocomplete-lhc.min.js'></script>
     <script>
+        var test=null;
         $(document).ready(function() {
-            new Def.Autocompleter.Search('condition', 'https://clinicaltables.nlm.nih.gov/api/conditions/v3/search');
+            test=new Def.Autocompleter.Search('condition', 'https://clinicaltables.nlm.nih.gov/api/conditions/v3/search');
         });
+        console.log(test);
+    </script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dropdown Callback Example</title>
+</head>
+<body>
+    <select id="dropdown">
+        <option value="value1">Option 1</option>
+        <option value="value2">Option 2</option>
+        <option value="value3">Option 3</option>
+    </select>
+    <div id="selectedValue"></div>
+
+    <script>
+        // Get the select element
+        var dropdown = document.getElementById('dropdown');
+
+        // Define the callback function
+        function onSelectChange() {
+            var selectedValue = dropdown.value;
+            document.getElementById('selectedValue').innerText = "Selected value: " + selectedValue;
+        }
+
+        // Add onchange event listener to the select element
+        dropdown.addEventListener('change', onSelectChange);
     </script>
 </body>
 </html>

@@ -3,76 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Autocomplete Example</title>
-    <link href='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/17.0.2/autocomplete-lhc.min.css' rel="stylesheet">
+    <title>Health Information</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        .selected-items {
-            margin-top: 10px;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5; /* Set a light background color */
+        }
+        
+        .header {
+            background-color: #000;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .container {
+            padding: 20px;
+            text-align: center; /* Center the content */
+        }
+        
+        .container2 {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px; /* Add some space between buttons and central content */
+        }
+        
+        .info-container {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-top: 20px; /* Add space between buttons and central content */
+        }
+        
+        .info-content {
+            color: #333;
         }
 
-        .selected-item {
-            display: inline-block;
-            padding: 5px;
-            margin: 5px;
-            background-color: #e0e0e0;
+        .btn {
+            background-color: #000;
+            color: white;
+            padding: 10px;
+            border: none;
             border-radius: 5px;
             cursor: pointer;
+        }
+
+        .btn:hover, .btn:focus {
+            background-color: #333;
         }
     </style>
 </head>
 <body>
-    <div class="container1">
-        <div class="header">
-            Search
+    <div class="header">
+        Health Information
+    </div>
+    <div class="container">
+        <div class="container2">
+            <button class="btn" onclick="showInfo('medications')">Medications</button>
+            <button class="btn" onclick="showInfo('alternativeMedications')">Alternative Medications</button>
+            <button class="btn" onclick="showInfo('treatments')">Treatments</button>
         </div>
-        <div class="box1">
-            <input type="text" id="condition" placeholder="Condition">
+        <div class="info-container" id="infoContainer">
+            <p class="info-content">Select a category to display information.</p>
         </div>
-        <form class="form1" onsubmit="return validateForm()">
-            <div class="selected-items" id="selectedItems"></div>
-            <input type="submit" value="Submit">
-        </form>
     </div>
 
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
     <script>
-        $(document).ready(function() {
-            const autocomplete = new Def.Autocompleter.Search('condition', {
-                url: 'https://clinicaltables.nlm.nih.gov/api/conditions/v3/search',
-                onSelect: function(value, data) {
-                    addSelectedItem(value);
-                }
-            });
-        });
-    </script>
-    <script src='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/17.0.2/autocomplete-lhc.min.js'></script>
-    <script>
-        // Function to add selected items to the form
-        function addSelectedItem(item) {
-            const selectedItemsContainer = $('#selectedItems');
-
-            if (selectedItemsContainer.children('.selected-item').length < 3) {
-                const selectedDiv = $('<div class="selected-item"></div>');
-                selectedDiv.text(item);
-                selectedDiv.click(function() {
-                    $(this).remove();
-                });
-
-                selectedItemsContainer.append(selectedDiv);
+        function showInfo(category) {
+            const infoContainer = document.getElementById('infoContainer');
+            let content = '';
+        
+            switch (category) {
+                case 'medications':
+                    content = '<p class="info-content">Medication 1</p><p class="info-content">Medication 2</p><p class="info-content">Medication 3</p>';
+                    break;
+                case 'alternativeMedications':
+                    content = '<p class="info-content">Alternative Medication 1</p><p class="info-content">Alternative Medication 2</p><p class="info-content">Alternative Medication 3</p>';
+                    break;
+                case 'treatments':
+                    content = '<p class="info-content">Treatment 1</p><p class="info-content">Treatment 2</p><p class="info-content">Treatment 3</p>';
+                    break;
+                default:
+                    content = '<p class="info-content">Select a category to display information.</p>';
             }
+        
+            infoContainer.innerHTML = content;
         }
-
-        // Function to validate the form before submission
-        function validateForm() {
-            const selectedItemsCount = $('#selectedItems').children('.selected-item').length;
-
-            if (selectedItemsCount > 0 && selectedItemsCount <= 3) {
-                return true; // Allow form submission
-            } else {
-                alert('Please select between 1 and 3 items.');
-                return false; // Prevent form submission
-            }
-        }
+        
     </script>
 </body>
 </html>
