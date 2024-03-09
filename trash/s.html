@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autocomplete Example</title>
+    <link href='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/17.0.2/autocomplete-lhc.min.css' rel="stylesheet">
+    <style>
+        .selected-items {
+            margin-top: 10px;
+        }
+
+        .selected-item {
+            display: inline-block;
+            padding: 5px;
+            margin: 5px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container1">
+        <div class="header">
+            Search
+        </div>
+        <div class="box1">
+            <input type="text" id="condition" placeholder="Condition">
+        </div>
+        <form class="form1" onsubmit="return validateForm()">
+            <div class="selected-items" id="selectedItems"></div>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+    <script>
+        $(document).ready(function() {
+            const autocomplete = new Def.Autocompleter.Search('condition', {
+                url: 'https://clinicaltables.nlm.nih.gov/api/conditions/v3/search',
+                onSelect: function(value, data) {
+                    addSelectedItem(value);
+                }
+            });
+        });
+    </script>
+    <script src='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/17.0.2/autocomplete-lhc.min.js'></script>
+    <script>
+        // Function to add selected items to the form
+        function addSelectedItem(item) {
+            const selectedItemsContainer = $('#selectedItems');
+
+            if (selectedItemsContainer.children('.selected-item').length < 3) {
+                const selectedDiv = $('<div class="selected-item"></div>');
+                selectedDiv.text(item);
+                selectedDiv.click(function() {
+                    $(this).remove();
+                });
+
+                selectedItemsContainer.append(selectedDiv);
+            }
+        }
+
+        // Function to validate the form before submission
+        function validateForm() {
+            const selectedItemsCount = $('#selectedItems').children('.selected-item').length;
+
+            if (selectedItemsCount > 0 && selectedItemsCount <= 3) {
+                return true; // Allow form submission
+            } else {
+                alert('Please select between 1 and 3 items.');
+                return false; // Prevent form submission
+            }
+        }
+    </script>
+</body>
+</html>

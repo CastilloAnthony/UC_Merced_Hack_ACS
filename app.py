@@ -37,11 +37,16 @@ class MyFlaskApp:
         self.app.add_url_rule('/signUp', 'signUp', self.signUp, methods=['POST', 'GET'])
         
         ########
-        
         #HOMEPAGE
         self.app.add_url_rule('/', 'index', self.index)
         #ABOUTPAGE
         self.app.add_url_rule('/about', 'about', self.about)
+        ########
+        
+        self.app.add_url_rule('/search', 'search', self.search, methods=['POST', 'GET'])
+        self.app.add_url_rule('/searchAnswer', 'searchAnswer', self.searchAnswer, methods=['POST', 'GET'])
+        
+        
         
         #CLASS_INITIALIZATION
         self.loginClass = Login(self.DBconneciton)
@@ -279,6 +284,16 @@ class MyFlaskApp:
             html: aboutpage.html
         """
         return render_template('aboutpage.html') 
+    
+    
+    def search(self):
+        return render_template('search.html')
+
+    def searchAnswer(self):
+        return render_template('searchAnswer.html')
+
+    
+        
     
     
 
