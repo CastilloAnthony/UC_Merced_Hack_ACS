@@ -11,7 +11,7 @@
 
 <body>
     <input type="text" id="condition" placeholder="Condition">
-    <div id="selectedCondition"></div>
+    <div id="selectedConditions"></div>
 
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
     <script src='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/17.0.2/autocomplete-lhc.min.js'></script>
@@ -19,15 +19,25 @@
         $(document).ready(function () {
             var autocompleter = new Def.Autocompleter.Search('condition', 'https://clinicaltables.nlm.nih.gov/api/conditions/v3/search', {
                 callback: function (item) {
-                    // When an item is selected, add it to the selectedCondition div
-                    $('#selectedCondition').text('Selected condition: ' + item.name);
+                    // When an item is selected, add it to the selectedConditions div
+                    var selectedConditions = $('#selectedConditions');
+                    if (selectedConditions.children().length < 3) {
+                        selectedConditions.append('<div>' + item.name + '</div>');
+                    }
+                    console.log(selectedConditions.children().length);
+                    console.log("You can only enter 3 symptoms.");
+
+
                 }
             });
 
             // Add change event listener to the input field
             $('#condition').on('change', function () {
                 var selectedValue = $(this).val();
-                $('#selectedCondition').text('Selected condition: ' + selectedValue);
+                var selectedConditions = $('#selectedConditions');
+                if (selectedConditions.children().length < 3) {
+                    selectedConditions.append('<div>' + selectedValue + '</div>');
+                }
             });
         });
     </script>
