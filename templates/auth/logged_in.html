@@ -1,8 +1,9 @@
-<!--CHRISTIAN-->
-{% extends "auth.html" %}
-{% block title %}You've logged in {% endblock %}
+{% extends "base.html" %} {% block content %}
 
-{% block content %}
-<p>Hello You have Logged in as {{ email }}</p>
+<div style="text-align: center; color: white">
+    <p style="font-size: x-large">
+        Hello, you have been logged in as {{ email }}
+    </p>
+</div>
 
 {% endblock %}

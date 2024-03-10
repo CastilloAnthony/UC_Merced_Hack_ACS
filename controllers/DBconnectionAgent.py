@@ -97,7 +97,6 @@ class DBConnectionAgent():
             bool: Success/Failure to add content to the DB
         """
         if self.__db != False:
-            self.__db[column].insert_one(content).acknowledged
             try:
                 return self.__db[column].insert_one(content).acknowledged
             except:

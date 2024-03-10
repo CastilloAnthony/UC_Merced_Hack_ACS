@@ -3,16 +3,19 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}My Website{% endblock %}</title>
+        <title>
+            {% block title %}Dedicated to your well-being, always.{% endblock %}
+        </title>
         <link
             rel="stylesheet"
             type="text/css"
             href="{{ url_for('static',filename='styles/style1.css') }}"
         />
     </head>
+
     <body>
         <ul>
-            <li><a class="home-link" href="/home">Home</a></li>
+            <li><a class="home-link" href="/">Home</a></li>
             <li><a class="dropdown" href="/about">About</a></li>
 
             <li class="dropdown">
@@ -28,7 +31,9 @@
                 <a href="#">Profile</a>
                 <div class="dropdown-content">
                     <a href="/profile">Profile</a>
-                    <a href="/login">Login/Signup</a>
+                    <a href="/login">Login</a>
+                    <a href="/signUp">Signup</a>
+                    <a href="/logout">Logout</a>
                 </div>
             </li>
         </ul>
@@ -37,6 +42,4 @@
         <main>{%block content%}{% endblock %}</main>
     </body>
     <html></html>
-</html>
-
 </html>
