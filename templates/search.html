@@ -1,45 +1,73 @@
 {%extends "base.html" %} 
 {% block content %}
-    <!--CHRISTIAN-->
-    
-        <head>
-            <meta charset="UTF-8">
-            <title>Search</title>
-            <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style1.css') }}">
-            <link href='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/17.0.2/autocomplete-lhc.min.css' rel="stylesheet">
-            
-        </head>
-        <body>
-            <h1  style="text-align:center;color:white;">Add Website</h1>
-            <form class="form" action="addWebsite/newAddedWebsite" method="POST" onsubmit="return validateForm()">
-                <p style="color:white;"><strong>Add a website URL so that we can track it, Detective.</strong></p>
-                <label style="color:white;" for="fname">URL:</label>
-                <input type="text" name="url" id="urlInput">
-                <input type="submit" value="Submit">
-            </form>
-            <div class="container1">
-                <div class="header">
-                    Search
-                </div>
-                <div class="box1">
-                    <input type="text" id="condition" placeholder="Condition">
-                </div>
-                <form class="form1">
-                    <!--
-                        I want a box where it will add items selected from the text box above that can be taken out.
-                        Max of 3 items in the form and only allow a submit if there is 1 and less than or equal to 3 items.
-                    -->
-                </form>
-            </div>
-            <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
-            <script src='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/17.0.2/autocomplete-lhc.min.js'></script>
-            <script>
-                var test=null;
-                $(document).ready(function() {
-                    test=new Def.Autocompleter.Search('condition', 'https://clinicaltables.nlm.nih.gov/api/conditions/v3/search');
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autocomplete Example</title>
+    <link href='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/17.0.2/autocomplete-lhc.min.css' rel="stylesheet">
+</head>
+<body>
+    <input type="text" id="condition" placeholder="Condition">
+    <div id="selectedConditions"></div>
+
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+    <script src='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/17.0.2/autocomplete-lhc.min.js'></script>
+    <script>
+        $(document).ready(function() {
+            var selectedConditions = [];
+
+            var autocompleter = new Def.Autocompleter.Search('condition', 'https://clinicaltables.nlm.nih.gov/api/conditions/v3/search', {
+                callback: function(item) {
+                    // When an item is selected, add it to the selectedConditions array and update the UI
+                    if (selectedConditions.length < 3) {
+                        selectedConditions.push(item.name);
+                        updateSelectedConditionsUI();
+                    }
+                }
+            });
+
+            // Add change event listener to the input field
+            $('#condition').on('change', function() {
+                var selectedValue = $(this).val();
+                if (selectedConditions.length < 3) {
+                    selectedConditions.push(selectedValue);
+                    updateSelectedConditionsUI();
+                }
+            });
+
+            // Function to update the UI with selected conditions
+            function updateSelectedConditionsUI() {
+                $('#selectedConditions').empty();
+                selectedConditions.forEach(function(condition) {
+                    $('#selectedConditions').append('<div>' + condition + '</div>');
                 });
-                console.log(test);
-            </script>
-            <script src="{{ url_for('static', filename='js/noEmpty.js') }}"></script>
-        </body>
+            }
+
+            // Function to send selected conditions data to Python
+            function sendSelectedConditionsToPython() {
+                $.ajax({
+                    type: 'POST',
+                    url: '/searchAnswer',
+                    data: JSON.stringify(selectedConditions),
+                    contentType: 'application/json',
+                    success: function(response) {
+                        console.log('Data sent to Python successfully:', response);
+                    },
+                    error: function(error) {
+                        console.error('Error sending data to Python:', error);
+                    }
+                });
+            }
+
+            // Call the function to send data to Python when needed
+            // For example, when a button is clicked
+            $('#sendDataButton').click(function() {
+                sendSelectedConditionsToPython();
+            });
+        });
+    </script>
+    <button id="SubmitSymptoms">Submit Symptoms</button>
+</body>
+</html>
 {% endblock%}

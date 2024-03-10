@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Autocomplete Example</title>
-    <link href='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/17.0.2/autocomplete-lhc.min.css'
-        rel="stylesheet">
+    <link href='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/17.0.2/autocomplete-lhc.min.css' rel="stylesheet">
 </head>
-
 <body>
     <input type="text" id="condition" placeholder="Condition">
     <div id="selectedConditions"></div>
@@ -16,31 +13,59 @@
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
     <script src='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/17.0.2/autocomplete-lhc.min.js'></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
+            var selectedConditions = [];
+
             var autocompleter = new Def.Autocompleter.Search('condition', 'https://clinicaltables.nlm.nih.gov/api/conditions/v3/search', {
-                callback: function (item) {
-                    // When an item is selected, add it to the selectedConditions div
-                    var selectedConditions = $('#selectedConditions');
-                    if (selectedConditions.children().length < 3) {
-                        selectedConditions.append('<div>' + item.name + '</div>');
+                callback: function(item) {
+                    // When an item is selected, add it to the selectedConditions array and update the UI
+                    if (selectedConditions.length < 3) {
+                        selectedConditions.push(item.name);
+                        updateSelectedConditionsUI();
                     }
-                    console.log(selectedConditions.children().length);
-                    console.log("You can only enter 3 symptoms.");
-
-
                 }
             });
 
             // Add change event listener to the input field
-            $('#condition').on('change', function () {
+            $('#condition').on('change', function() {
                 var selectedValue = $(this).val();
-                var selectedConditions = $('#selectedConditions');
-                if (selectedConditions.children().length < 3) {
-                    selectedConditions.append('<div>' + selectedValue + '</div>');
+                if (selectedConditions.length < 3) {
+                    selectedConditions.push(selectedValue);
+                    updateSelectedConditionsUI();
                 }
+            });
+
+            // Function to update the UI with selected conditions
+            function updateSelectedConditionsUI() {
+                $('#selectedConditions').empty();
+                selectedConditions.forEach(function(condition) {
+                    $('#selectedConditions').append('<div>' + condition + '</div>');
+                });
+            }
+
+            // Function to send selected conditions data to Python
+            function sendSelectedConditionsToPython() {
+                $.ajax({
+                    type: 'POST',
+                    url: '/path/to/python/endpoint',
+                    data: JSON.stringify(selectedConditions),
+                    contentType: 'application/json',
+                    success: function(response) {
+                        console.log('Data sent to Python successfully:', response);
+                    },
+                    error: function(error) {
+                        console.error('Error sending data to Python:', error);
+                    }
+                });
+            }
+
+            // Call the function to send data to Python when needed
+            // For example, when a button is clicked
+            $('#sendDataButton').click(function() {
+                sendSelectedConditionsToPython();
             });
         });
     </script>
+    <button id="SubmitSymptoms">Submit Symptoms</button>
 </body>
-
 </html>

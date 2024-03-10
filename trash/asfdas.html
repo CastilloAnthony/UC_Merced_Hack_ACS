@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autocomplete Example</title>
+    <link href='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/17.0.2/autocomplete-lhc.min.css'
+        rel="stylesheet">
+</head>
+
+<body>
+    <input type="text" id="condition" placeholder="Condition">
+    <form id="conditionsForm">
+        <div id="selectedConditions"></div>
+        <input type="button" value="Submit" onclick="submitConditions()">
+    </form>
+
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+    <script src='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/17.0.2/autocomplete-lhc.min.js'></script>
+    <script>
+        $(document).ready(function () {
+            var selectedConditions = [];
+
+            var autocompleter = new Def.Autocompleter.Search('condition', 'https://clinicaltables.nlm.nih.gov/api/conditions/v3/search', {
+                callback: function (item) {
+                    // When an item is selected, add it to the selectedConditions array
+                    if (selectedConditions.length < 3) {
+                        selectedConditions.push(item.name);
+                        updateSelectedConditions();
+                    }
+                }
+            });
+
+            // Add change event listener to the input field
+            $('#condition').on('change', function () {
+                var selectedValue = $(this).val();
+                if (selectedConditions.length < 3) {
+                    selectedConditions.push(selectedValue);
+                    updateSelectedConditions();
+                }
+            });
+
+            // Function to update the displayed selected conditions
+            function updateSelectedConditions() {
+                var container = $('#selectedConditions');
+                container.empty();
+                selectedConditions.forEach(function (condition) {
+                    container.append('<div>' + condition + '</div>');
+                });
+            }
+        });
+
+        // Function to submit conditions to the Flask backend
+        function submitConditions() {
+            var conditions = selectedConditions.join(',');
+            // Using AJAX to make a POST request to the Flask backend
+            $.ajax({
+                type: 'POST',
+                url: '/searchAnswer',  // Replace with your Flask endpoint
+                data: { 'conditions': conditions },
+                success: function (response) {
+                    // Handle the response from the backend if needed
+                    console.log(response);
+                },
+                error: function (error) {
+                    // Handle errors if needed
+                    console.log(error);
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
