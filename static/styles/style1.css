@@ -1,6 +1,6 @@
 /*CHRISTIAN*/
-html{
-    background-image: url('/static/images/medicalCross.png');
+html {
+    background-image: url("/static/images/medicalCross2.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -12,10 +12,16 @@ html{
 
 ul {
     list-style-type: none;
-    margin: 0;
-    padding: 0;
+    /* margin: 0; */
+    /* padding: 0; */
     overflow: hidden;
-    background-color: #333;
+    background-color: #ac86e981;
+    border-radius: 10px;
+    margin: auto;
+    width: 70%;
+    height: auto;
+    text-align: justify;
+    padding: 10px;
 }
 
 li {
@@ -31,11 +37,31 @@ li a {
 }
 
 li a:hover {
-    background-color: #555;
+    background-color: #4caf50; /* Green */
+    /* background-color: #555; */
+    border-radius: 10px;
+    margin: auto;
+    /* width: 70%; */
+    height: auto;
+    /* text-align: justify; */
+    /* padding: 10px; */
 }
 /*centering forms wrapped in div*/
 div {
-    text-align: center;
+    /* text-align: center; */
+    color: white;
+    background-color: rgba(
+        52,
+        169,
+        67,
+        0.7
+    ); /* Adjusted the alpha value for better visibility */
+    border-radius: 10px;
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
+    text-align: justify;
+    padding: 5px; /* Increased padding for better spacing */
 }
 /*forms styling*/
 form {
@@ -47,7 +73,39 @@ form {
     width: 40%;
     height: fit-content;
     text-align: justify;
-    padding: 15px
+    padding: 15px;
+}
+
+h1 {
+    color: white;
+    background-color: rgba(
+        52,
+        169,
+        67,
+        0.7
+    ); /* Adjusted the alpha value for better visibility */
+    border-radius: 10px;
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
+    text-align: center;
+    padding: 5px; /* Increased padding for better spacing */
+}
+
+footer {
+    color: white;
+    background-color: rgba(
+        52,
+        169,
+        67,
+        0.8
+    ); /* Adjusted the alpha value for better visibility */
+    border-radius: 10px;
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
+    text-align: justify;
+    padding: 5px; /* Increased padding for better spacing */
 }
 
 .dropdown {
@@ -58,7 +116,7 @@ form {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
@@ -80,12 +138,18 @@ form {
 /*VEL*/
 /* Home link styling */
 .home-link {
-    background-color: #4CAF50; /* Green */
+    /* background-color: #4caf50; /* Green */
+    border-radius: 10px;
+    margin: auto;
+    /* width: 70%; */
+    height: auto;
+    /* text-align: justify; */
+    /* padding: 10px; */
 }
 
 /*homepage styling*/
 .home {
-    background: rgba(52, 169, 67, 50%);
+    background: rgba(52, 169, 67, 80%);
     border-radius: 10px;
 
     margin: auto;
@@ -100,24 +164,24 @@ form {
 }
 
 /*input styling*/
-input[type=submit] {
+input[type="submit"] {
     background-color: gray;
     color: black;
 }
 
-input[type=submit]:hover {
-    background-color: #4CAF50;
+input[type="submit"]:hover {
+    background-color: #4caf50;
     color: black;
- }
+}
 
 /* button styling*/
 button {
     text-align: center;
     background-color: gray;
     color: black;
- }
+}
 
 button:hover {
-    background-color:lightseagreen;
+    background-color: lightseagreen;
     color: black;
 }
