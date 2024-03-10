@@ -33,7 +33,7 @@ class MyFlaskApp:
         
         self.app.add_url_rule('/search', 'search', self.search, methods=['POST', 'GET'])
         self.app.add_url_rule('/searchAnswer', 'searchAnswer', self.searchAnswer, methods=['POST', 'GET'])
-        
+        self.app.add_url_rule('/profile', 'profile', self.profile, methods=['POST', 'GET'])
         
         
         webbrowser.open("http://127.0.0.1:7777")
@@ -121,7 +121,7 @@ class MyFlaskApp:
         #FOR FIRST TIME LOGGING IN
         message = ''
         if "id" in session:
-            return redirect(url_for("homepage"))
+            return redirect(url_for("logged_in"))
         if request.method == "POST":
             user = request.form.get("fullname")
             email = request.form.get("email")
@@ -130,7 +130,7 @@ class MyFlaskApp:
 
             result = self.register_user(user, email, password1, password2)
             if result == True:
-                return render_template('auth/logged_in.html', email=self.DBconneciton.requestFromDB('users', {'id':session['id']})['username'])
+                return render_template('auth/logged_in.html', userName=self.DBconneciton.requestFromDB('users', {'id':session['id']})['username'])
             else:
                 return render_template('auth/index.html', message=result)
         return render_template('auth/index.html')
@@ -157,7 +157,7 @@ class MyFlaskApp:
                 passwordcheck = email_found['password']
                 if bcrypt.checkpw(password.encode('utf-8'), passwordcheck):
                     session['id'] =  email_found['id']
-                    return redirect(url_for('logged_in'))#MAY CHANGE
+                    return redirect(url_for('index'))#MAY CHANGE
                 else:
                     message = 'Wrong password'
                     return render_template('auth/login.html', message=message)
@@ -166,7 +166,7 @@ class MyFlaskApp:
                 passwordcheck = username_found['password']
                 if bcrypt.checkpw(password.encode('utf-8'), passwordcheck):
                     session['id'] =  username_found['id']
-                    return redirect(url_for('logged_in'))#MAY CHANGE
+                    return redirect(url_for('index'))#MAY CHANGE
                 else:
                     message = 'Wrong password'
                     return render_template('auth/login.html', message=message)
@@ -183,7 +183,7 @@ class MyFlaskApp:
         """
         if "id" in session:
             #TODO: pass username as context w/ or instead of email.
-            return render_template('homepage.html', email=self.DBconneciton.requestFromDB('users', {'id':session['id']})['username']) #changed from auth/logged_in.html
+            return render_template('homepage.html', userName=self.DBconneciton.requestFromDB('users', {'id':session['id']})['username']) #changed from auth/logged_in.html
         else:
             return redirect(url_for("homepage.html"))
     #FINISHED
@@ -247,7 +247,7 @@ class MyFlaskApp:
             html: homepage.html
         """
         if 'id' in session:
-            return render_template('homepage.html', userName=self.DBconneciton('users', {'id':session['id']}['username'])) #data=self.viewWebsiteClass.query1())
+            return render_template('homepage.html', userName=self.DBconneciton.requestFromDB('users', {'id':session['id']})['username']) #data=self.viewWebsiteClass.query1())
         else:
             return render_template('homepage.html')
 
@@ -266,10 +266,11 @@ class MyFlaskApp:
     def searchAnswer(self):
         return render_template('searchAnswer.html')
 
-    
-        
-    
-    
+    def profile(self):
+        if 'id' in session:
+            return render_template('profile.html', userName=self.DBconneciton.requestFromDB('users', {'id':session['id']})['username'])
+        else:
+            return redirect('/login')
 
     ################################
     #      TECHNICAL FUNCTIONS     #
